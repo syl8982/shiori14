@@ -567,7 +567,7 @@
     margin-top: 0;
     min-height: auto;
     padding: 0 var(--space-page) var(--space-page);
-    overflow-x: clip;
+    overflow-x: visible;
   }
 
   .home__footer-body {
@@ -582,10 +582,24 @@
   .home__footer-info {
     margin-left: 0;
     max-width: none;
+    width: 100%;
+  }
+
+  .home__footer-title,
+  .home__footer-subtitle {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    max-width: 100%;
   }
 
   .home__divider,
   .home__contact {
     margin-left: 0;
+  }
+
+  .home__contact,
+  .home__contact-group a,
+  .home__copyright {
+    font-size: calc(var(--font-nav) - 2px);
   }
 }
