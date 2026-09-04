@@ -1,0 +1,130 @@
+.home:has(.subpage__content--work) {
+  min-height: 100dvh;
+  background: linear-gradient(180deg, #f1e8ef 0%, #ffffff 100%);
+  background-color: #ffffff;
+}
+
+.home:has(.subpage__content--work) .home__main--page {
+  position: relative;
+  min-height: calc(100dvh - var(--space-page));
+}
+
+.home:has(.subpage__content--work) .home__main-header,
+.home:has(.subpage__content--work) .page-content {
+  position: relative;
+  z-index: 1;
+}
+
+.work__pickle-bg {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.work__jar-composition {
+  position: relative;
+  width: clamp(30rem, 68vw, 52rem);
+  pointer-events: auto;
+}
+
+.work__jar-bg {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.work__jar-pickle-link {
+  position: absolute;
+  left: var(--pickle-x);
+  top: var(--pickle-y);
+  width: var(--pickle-size);
+  transform: translate(
+    calc(-50% + var(--pickle-offset-x, 0px)),
+    calc(-50% + var(--pickle-offset-y, 0px))
+  );
+  pointer-events: auto;
+  color: inherit;
+  text-decoration: none;
+}
+
+.work__jar-pickle-visual {
+  position: relative;
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+
+.work__jar-pickle {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+}
+
+.work__jar-pickle-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+}
+
+.work__jar-pickle-overlay-fill {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-mask-image: var(--pickle-mask);
+  mask-image: var(--pickle-mask);
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.work__jar-pickle-label {
+  position: absolute;
+  top: calc(50% + var(--pickle-label-y, 0%) + var(--pickle-label-offset-y, 0px));
+  left: calc(50% + var(--pickle-label-x, 0%) + var(--pickle-label-offset-x, 0px));
+  z-index: 1;
+  max-width: 88%;
+  font-size: clamp(0.5625rem, 0.95vw, 0.8125rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  text-align: center;
+  word-break: keep-all;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.28s ease;
+  pointer-events: none;
+}
+
+.work__jar-pickle-link:hover .work__jar-pickle-overlay,
+.work__jar-pickle-link:focus-visible .work__jar-pickle-overlay {
+  opacity: 1;
+}
+
+.work__jar-pickle-link:hover .work__jar-pickle-label,
+.work__jar-pickle-link:focus-visible .work__jar-pickle-label {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .work__jar-pickle-overlay,
+  .work__jar-pickle-label {
+    transition: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .work__jar-composition {
+    width: clamp(24rem, 124vw, 36rem);
+  }
+}

@@ -1,0 +1,51 @@
+.subpage__content {
+  margin-left: 75px;
+  padding-top: 10px;
+  max-width: calc(min(52vw, 50rem) + 80px);
+}
+
+/* 아카이브·작업·작가노트 공통 여백 */
+.subpage__content--page {
+  --subpage-bottom-gap: 40px; /* padding-top 10px + title margin-top 30px */
+  --subpage-body-gap: clamp(1.5rem, 2.6vw, 3.125rem);
+}
+
+.subpage__content--page > :last-child {
+  margin-bottom: var(--subpage-bottom-gap);
+}
+
+.home__main--page:has(.subpage__content--page),
+.page-content.subpage__content--page {
+  min-height: auto;
+}
+
+.subpage__body {
+  margin-top: var(--subpage-body-gap, clamp(1.5rem, 2.6vw, 3.125rem));
+}
+
+.subpage__content--page .scattered-gallery {
+  margin-top: var(--subpage-body-gap);
+}
+
+.subpage__text {
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.subpage__text + .subpage__text {
+  margin-top: 25px;
+}
+
+@media (max-width: 768px) {
+  .subpage__content {
+    margin-left: 0;
+  }
+
+  .subpage__content--page {
+    --subpage-body-gap: clamp(1.25rem, 5vw, 2rem);
+  }
+}

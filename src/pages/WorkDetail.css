@@ -1,0 +1,396 @@
+/* 기본 subpage(52vw) 대비 오른쪽 여백의 절반만큼 콘텐츠 폭 확장 */
+.home__main--page:has(.subpage__content--work-detail) .page-content.subpage__content--work-detail {
+  max-width: min(calc(52vw + 13vw), calc(50rem + 12rem));
+  width: 100%;
+}
+
+.subpage__content--work-detail {
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  width: 100%;
+  --subpage-bottom-gap: calc(10px + 20px);
+}
+
+.home__main--page:has(.subpage__content--work-detail) .page-content {
+  min-height: auto;
+}
+
+.subpage__content--work-detail > :last-child {
+  margin-bottom: var(--subpage-bottom-gap);
+}
+
+.work-detail {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  min-height: 0;
+}
+
+.work-detail__nav {
+  margin-bottom: clamp(0.75rem, 1.6vw, 1.125rem);
+}
+
+.work-detail__back {
+  display: inline-block;
+  font-size: var(--font-nav);
+  line-height: var(--line-height-nav);
+  letter-spacing: -0.01em;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.work-detail__images {
+  --work-detail-image-gap: clamp(0.5rem, 1vw, 0.75rem);
+  width: 100%;
+}
+
+.work-detail__image-frame {
+  margin: 0;
+  overflow: hidden;
+  line-height: 0;
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+}
+
+.work-detail__image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+}
+
+.work-detail__image--scaled {
+  inset: auto;
+  width: auto;
+  height: auto;
+  max-width: none;
+  max-height: none;
+}
+
+.work-detail__images--count-0 .work-detail__image-placeholder {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: min(68vh, 40rem);
+}
+
+/* 1장 — 가로 줄 전체 */
+.work-detail__images--count-1 .work-detail__image-frame {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: min(68vh, 40rem);
+}
+
+/* 2장 — Grid: 세로형 2장, 각각 2행 span */
+.work-detail__images--count-2 {
+  --work-detail-image-gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: var(--work-detail-image-gap);
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  max-height: min(75vh, 48rem);
+}
+
+.work-detail__images--count-2 .work-detail__image-frame {
+  min-width: 0;
+  min-height: 0;
+  grid-row: 1 / -1;
+}
+
+.work-detail__images--count-2 .work-detail__image-frame:first-child {
+  grid-column: 1;
+}
+
+.work-detail__images--count-2 .work-detail__image-frame:last-child {
+  grid-column: 2;
+}
+
+/* 2장 — 가로 1행 (김지오, 이승현) */
+.work-detail__images--count-2.work-detail__images--layout-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: auto;
+  gap: var(--work-detail-image-gap, 15px);
+  aspect-ratio: auto;
+  max-height: none;
+}
+
+.work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame {
+  min-width: 0;
+  width: 100%;
+  aspect-ratio: var(--work-detail-row-image-aspect, 4 / 3);
+  max-height: none;
+}
+
+.work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame:first-child {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame:last-child {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+/* 2장 — row split: 열 비율 지정 + 좌우 상하 정렬 (예: 4fr 3fr) */
+.work-detail__images--count-2.work-detail__images--layout-row-split {
+  grid-template-columns: var(--work-detail-row-columns, minmax(0, 4fr) minmax(0, 3fr));
+  grid-template-rows: minmax(0, 1fr);
+  aspect-ratio: var(--work-detail-row-gallery-aspect, 21 / 8);
+  max-height: min(75vh, 48rem);
+}
+
+.work-detail__images--count-2.work-detail__images--layout-row-split .work-detail__image-frame {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  max-height: none;
+}
+
+/* 3장 — 공통 Grid: 왼쪽 2행 span + 오른쪽 2장 각 1행, gap 동일 */
+.work-detail__images--count-3 {
+  --work-detail-image-gap: 15px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--work-detail-image-gap);
+  width: 100%;
+  max-height: min(75vh, 48rem);
+}
+
+.work-detail__images--count-3 .work-detail__image-frame {
+  min-width: 0;
+  min-height: 0;
+}
+
+.work-detail__images--count-3 .work-detail__image-frame--lead {
+  grid-column: 1;
+  grid-row: 1 / -1;
+}
+
+.work-detail__images--count-3 .work-detail__image-frame:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.work-detail__images--count-3 .work-detail__image-frame:nth-child(3) {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* 3장 — portrait (세로형) */
+.work-detail__images--count-3.work-detail__images--layout-portrait {
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  aspect-ratio: 5 / 3;
+}
+
+/* 3장 — landscape (가로형): 왼쪽 2/3, 오른쪽 1/3 — 3:2 이미지 기준 정렬 */
+.work-detail__images--count-3.work-detail__images--layout-landscape {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+  aspect-ratio: 9 / 4;
+}
+
+/* 3장 — row: 가로 3열 (열 비율 + 갤러리 비율 지정) */
+.work-detail__images--count-3.work-detail__images--layout-row-split {
+  grid-template-columns: var(--work-detail-row-columns, minmax(0, 7fr) minmax(0, 4fr) minmax(0, 4fr));
+  grid-template-rows: minmax(0, 1fr);
+  grid-auto-rows: minmax(0, 1fr);
+  align-items: stretch;
+  aspect-ratio: var(--work-detail-row-gallery-aspect, 5 / 2);
+  max-height: min(75vh, 48rem);
+}
+
+.work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  align-self: stretch;
+  aspect-ratio: auto;
+}
+
+.work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame:nth-child(n) {
+  grid-column: auto;
+  grid-row: 1 / -1;
+}
+
+.work-detail__meta {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  padding-top: clamp(1.5rem, 2.8vw, 2.125rem);
+  padding-bottom: 0;
+}
+
+.work-detail__meta-head,
+.work-detail__description,
+.work-detail__footer {
+  width: 100%;
+}
+
+.work-detail__work-title {
+  margin: 0;
+  font-size: calc(var(--font-nav) + 4px);
+  font-weight: 700;
+  line-height: var(--line-height-nav);
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+}
+
+.work-detail__artist-name {
+  margin: clamp(0.5rem, 1vw, 0.75rem) 0 0;
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
+  letter-spacing: -0.01em;
+}
+
+.work-detail__divider {
+  width: 100%;
+  height: 1px;
+  margin: clamp(0.875rem, 1.8vw, 1.25rem) 0 clamp(1.25rem, 2.4vw, 1.75rem);
+  border: 0;
+  background: #111;
+}
+
+.work-detail__description {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.work-detail__paragraph {
+  margin: 0;
+}
+
+.work-detail__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding-top: 0;
+}
+
+.work-detail__contact {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  text-align: right;
+}
+
+.work-detail__contact-link,
+.work-detail__contact-line {
+  font-size: var(--font-body);
+  font-weight: 400;
+  line-height: var(--line-height-body);
+  letter-spacing: -0.01em;
+}
+
+.work-detail__contact-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.work-detail__contact-link:hover,
+.work-detail__contact-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+@media (max-width: 768px) {
+  .home__main--page:has(.subpage__content--work-detail) .page-content.subpage__content--work-detail {
+    max-width: none;
+  }
+
+  .work-detail__images--count-0 .work-detail__image-placeholder,
+  .work-detail__images--count-1 .work-detail__image-frame {
+    max-height: min(56vh, 28rem);
+  }
+
+  .work-detail__images--count-2 {
+    aspect-ratio: 5 / 3;
+    max-height: none;
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame {
+    aspect-ratio: var(--work-detail-row-image-aspect, 4 / 3);
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row-split .work-detail__image-frame {
+    aspect-ratio: 4 / 3;
+    height: auto;
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-3 {
+    max-height: none;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-portrait {
+    aspect-ratio: 5 / 3;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-landscape {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    aspect-ratio: auto;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-landscape .work-detail__image-frame--lead {
+    grid-column: 1;
+    grid-row: 1;
+    aspect-ratio: 3 / 2;
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-landscape .work-detail__image-frame:nth-child(2),
+  .work-detail__images--count-3.work-detail__images--layout-landscape .work-detail__image-frame:nth-child(3) {
+    grid-column: 1;
+    aspect-ratio: 3 / 2;
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-landscape .work-detail__image-frame:nth-child(2) {
+    grid-row: 2;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-landscape .work-detail__image-frame:nth-child(3) {
+    grid-row: 3;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row-split {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame {
+    aspect-ratio: 3 / 2;
+    height: auto;
+    max-height: min(44vh, 24rem);
+  }
+}
