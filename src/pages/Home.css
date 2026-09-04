@@ -600,6 +600,6 @@
   .home__contact,
   .home__contact-group a,
   .home__copyright {
-    font-size: calc(var(--font-nav) - 2px);
+    font-size: var(--font-nav);
   }
 }
