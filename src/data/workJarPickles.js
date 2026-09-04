@@ -4,9 +4,7 @@ import { assetPath } from '../utils/assetPath'
 
 const JAR_CENTER_X = 50
 const JAR_CENTER_Y = 50
-const CLUSTER_FACTOR = 0.76
 const JAR_ASPECT = 935 / 892
-const BASE_MIN_GAP = 0
 
 const RAW_WORK_JAR_PICKLES = [
   { id: 'jar-1', src: '/images/layer4.png', x: 50, y: 14, size: 3.5, z: 2, offsetX: -12, offsetY: 25, gap: 0.35 },
@@ -27,103 +25,146 @@ const RAW_WORK_JAR_PICKLES = [
   { id: 'jar-17', src: '/images/layer2.png', x: 46, y: 46, size: 9, z: 4, gap: 1.2 },
 ]
 
-function cluster(value, center) {
-  return center + (value - center) * CLUSTER_FACTOR
-}
-
-function scalePickleSize(src, size) {
+function scalePickleSize(src, size, sizeMultiplier = 1) {
   const isLargeLayer = src.includes('layer1') || src.includes('layer7')
-  if (isLargeLayer) return size * 0.85
+  if (isLargeLayer) return size * 0.85 * sizeMultiplier
 
   const isMediumSmallLayer = ['layer3', 'layer4', 'layer5', 'layer6'].some(
     (layer) => src.includes(layer),
   )
-  if (isMediumSmallLayer) return size * 1.4 * 1.08
+  if (isMediumSmallLayer) return size * 1.4 * 1.08 * sizeMultiplier
 
-  return size * 1.4
+  return size * 1.4 * sizeMultiplier
 }
 
-function getCollisionScale(src) {
+function getBaseCollisionScale(src) {
   if (src.includes('layer2')) return 1.12
   return 1
 }
 
-function getRadius(pickle) {
-  return (pickle.size / 2) * getCollisionScale(pickle.src)
+/** PNG 알파 바깥 여백 — 레이어별로 다르게 적용 */
+function getVisualCollisionScale(src) {
+  if (src.includes('layer2')) return 1.5
+  if (src.includes('layer3')) return 1.48
+  if (src.includes('layer4')) return 1.46
+  if (src.includes('layer5')) return 1.44
+  if (src.includes('layer6')) return 1.44
+  if (src.includes('layer7')) return 1.42
+  if (src.includes('layer1')) return 1.4
+  return 1.42
 }
 
-function getPairGap(a, b) {
-  return BASE_MIN_GAP + (a.gap + b.gap) / 2
-}
-
-function clampToJar(pickle) {
-  const radius = getRadius(pickle)
-  pickle.x = Math.max(21 + radius, Math.min(79 - radius, pickle.x))
-  pickle.y = Math.max(17 + radius, Math.min(87 - radius, pickle.y))
-}
-
-function separatePair(a, b) {
-  const dx = b.x - a.x
-  const dy = (b.y - a.y) * JAR_ASPECT
-  const distance = Math.hypot(dx, dy) || 0.001
-  const minDistance = getRadius(a) + getRadius(b) + getPairGap(a, b)
-
-  if (distance >= minDistance) return 0
-
-  const push = (minDistance - distance) / 2 + 0.12
-  const nx = dx / distance
-  const ny = dy / distance
-
-  a.x -= nx * push
-  a.y -= (ny / JAR_ASPECT)
-  b.x += nx * push
-  b.y += (ny / JAR_ASPECT)
-
-  return minDistance - distance
-}
-
-function countOverlaps(items) {
-  let overlaps = 0
-  for (let i = 0; i < items.length; i += 1) {
-    for (let j = i + 1; j < items.length; j += 1) {
-      const dx = items[j].x - items[i].x
-      const dy = (items[j].y - items[i].y) * JAR_ASPECT
-      const distance = Math.hypot(dx, dy)
-      const minDistance = getRadius(items[i]) + getRadius(items[j]) + getPairGap(items[i], items[j])
-      if (distance < minDistance - 0.01) overlaps += 1
-    }
+function createJarPickleLayout({
+  clusterFactor,
+  baseMinGap,
+  gapMultiplier,
+  sizeMultiplier = 1,
+  useVisualPadding = false,
+  visualCollisionScale = 1,
+  pairPushPadding = 0.12,
+  maxIterations = 500,
+  gapEscalationPasses = 0,
+}) {
+  function cluster(value, center) {
+    return center + (value - center) * clusterFactor
   }
-  return overlaps
-}
 
-function resolveOverlaps(pickles) {
-  const items = pickles.map((pickle) => ({ ...pickle, gap: pickle.gap ?? 0.8 }))
+  function getRadius(pickle) {
+    let radius = (pickle.size / 2) * getBaseCollisionScale(pickle.src)
+    if (useVisualPadding) {
+      radius *= getVisualCollisionScale(pickle.src) * visualCollisionScale
+    }
+    return radius
+  }
 
-  for (let iteration = 0; iteration < 500; iteration += 1) {
+  function getPairGap(a, b) {
+    return baseMinGap + (a.gap + b.gap) / 2
+  }
+
+  function clampToJar(pickle) {
+    const radius = getRadius(pickle)
+    pickle.x = Math.max(21 + radius, Math.min(79 - radius, pickle.x))
+    pickle.y = Math.max(17 + radius, Math.min(87 - radius, pickle.y))
+  }
+
+  function separatePair(a, b) {
+    const dx = b.x - a.x
+    const dy = (b.y - a.y) * JAR_ASPECT
+    const distance = Math.hypot(dx, dy) || 0.001
+    const minDistance = getRadius(a) + getRadius(b) + getPairGap(a, b)
+
+    if (distance >= minDistance) return
+
+    const push = (minDistance - distance) / 2 + pairPushPadding
+    const nx = dx / distance
+    const ny = dy / distance
+
+    a.x -= nx * push
+    a.y -= ny / JAR_ASPECT
+    b.x += nx * push
+    b.y += ny / JAR_ASPECT
+  }
+
+  function countOverlaps(items) {
+    let overlaps = 0
     for (let i = 0; i < items.length; i += 1) {
       for (let j = i + 1; j < items.length; j += 1) {
-        separatePair(items[i], items[j])
+        const dx = items[j].x - items[i].x
+        const dy = (items[j].y - items[i].y) * JAR_ASPECT
+        const distance = Math.hypot(dx, dy)
+        const minDistance = getRadius(items[i]) + getRadius(items[j]) + getPairGap(items[i], items[j])
+        if (distance < minDistance - 0.01) overlaps += 1
       }
     }
-    items.forEach(clampToJar)
-    if (countOverlaps(items) === 0) break
+    return overlaps
   }
 
-  return items.map((pickle) => ({
+  function resolveOverlaps(pickles) {
+    const items = pickles.map((pickle) => ({ ...pickle }))
+
+    for (let iteration = 0; iteration < maxIterations; iteration += 1) {
+      for (let i = 0; i < items.length; i += 1) {
+        for (let j = i + 1; j < items.length; j += 1) {
+          separatePair(items[i], items[j])
+        }
+      }
+      items.forEach(clampToJar)
+      if (countOverlaps(items) === 0) break
+    }
+
+    return items
+  }
+
+  function buildAnchoredPickles(gapScale = 1) {
+    return RAW_WORK_JAR_PICKLES.map((pickle) => ({
+      ...pickle,
+      x: cluster(pickle.x, JAR_CENTER_X),
+      y: cluster(pickle.y, JAR_CENTER_Y),
+      size: scalePickleSize(pickle.src, pickle.size, sizeMultiplier),
+      gap: (pickle.gap ?? 0.8) * gapMultiplier * gapScale,
+    }))
+  }
+
+  function resolveUntilClear() {
+    let gapScale = 1
+
+    for (let pass = 0; pass <= gapEscalationPasses; pass += 1) {
+      const resolved = resolveOverlaps(buildAnchoredPickles(gapScale))
+      if (countOverlaps(resolved) === 0) return resolved
+      gapScale *= 1.1
+    }
+
+    return resolveOverlaps(buildAnchoredPickles(gapScale))
+  }
+
+  return resolveUntilClear().map((pickle) => ({
     ...pickle,
     x: +pickle.x.toFixed(2),
     y: +pickle.y.toFixed(2),
     size: +pickle.size.toFixed(2),
+    src: assetPath(pickle.src),
   }))
 }
-
-const anchoredPickles = RAW_WORK_JAR_PICKLES.map((pickle) => ({
-  ...pickle,
-  x: cluster(pickle.x, JAR_CENTER_X),
-  y: cluster(pickle.y, JAR_CENTER_Y),
-  size: scalePickleSize(pickle.src, pickle.size),
-  gap: pickle.gap ?? 0.8,
-}))
 
 /** PNG 알파 채널 기준 시각적 중심 — bounding box 50% 대비 보정값(%) */
 const RAW_PICKLE_LABEL_CENTER = {
@@ -140,7 +181,43 @@ export const PICKLE_LABEL_CENTER = Object.fromEntries(
   Object.entries(RAW_PICKLE_LABEL_CENTER).map(([src, center]) => [assetPath(src), center]),
 )
 
-export const WORK_JAR_PICKLES = resolveOverlaps(anchoredPickles).map((pickle) => ({
-  ...pickle,
-  src: assetPath(pickle.src),
-}))
+export const WORK_JAR_PICKLES = createJarPickleLayout({
+  clusterFactor: 0.76,
+  baseMinGap: 0,
+  gapMultiplier: 1,
+  sizeMultiplier: 1,
+  visualCollisionScale: 1,
+})
+
+/** 모바일 — Figma cluster(0.76) + 중심 기준 7% 확장, 겹침 최소 보정 */
+const MOBILE_PICKLE_POSITIONS = {
+  'jar-1': { x: 50.0, y: 20.7 },
+  'jar-2': { x: 61.3, y: 24.0 },
+  'jar-3': { x: 30.8, y: 31.8 },
+  'jar-4': { x: 41.2, y: 26.2 },
+  'jar-5': { x: 47.2, y: 36.2 },
+  'jar-6': { x: 64.0, y: 51.5 },
+  'jar-7': { x: 64.8, y: 34.3 },
+  'jar-8': { x: 31.8, y: 56.0 },
+  'jar-9': { x: 41.7, y: 67.1 },
+  'jar-10': { x: 55.2, y: 67.1 },
+  'jar-11': { x: 48.7, y: 58.9 },
+  'jar-12': { x: 29.4, y: 66.5 },
+  'jar-13': { x: 41.7, y: 85.0 },
+  'jar-14': { x: 64.7, y: 71.4 },
+  'jar-15': { x: 56.3, y: 42.1 },
+  'jar-17': { x: 38.6, y: 43.6 },
+}
+
+const MOBILE_SIZE_MULTIPLIER = 0.9
+
+export const WORK_JAR_PICKLES_MOBILE = RAW_WORK_JAR_PICKLES.map((pickle) => {
+  const pos = MOBILE_PICKLE_POSITIONS[pickle.id]
+  return {
+    ...pickle,
+    x: pos.x,
+    y: pos.y,
+    size: +scalePickleSize(pickle.src, pickle.size, MOBILE_SIZE_MULTIPLIER).toFixed(2),
+    src: assetPath(pickle.src),
+  }
+})

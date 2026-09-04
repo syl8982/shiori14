@@ -34,29 +34,3 @@
   line-height: var(--line-height-nav);
   letter-spacing: -0.01em;
 }
-
-@media (max-width: 768px) {
-  .home__main--page {
-    grid-template-columns: 1fr;
-    row-gap: var(--space-section-stack);
-  }
-
-  .home__main--page .home__main-header {
-    order: 1;
-  }
-
-  .home__main--page .page-content {
-    order: 2;
-  }
-
-  .home__main--page .home__main-header,
-  .page-content {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
-  .page-content {
-    max-width: none;
-    min-height: auto;
-  }
-}

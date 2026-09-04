@@ -43,14 +43,16 @@
 @media (max-width: 768px) {
   .subpage__content {
     margin-left: 0;
+    padding-top: 0;
+    max-width: none;
   }
 
   .subpage__content--page {
-    --subpage-body-gap: clamp(1.25rem, 5vw, 2rem);
+    --subpage-body-gap: clamp(1rem, 4vw, 1.5rem);
+    --subpage-bottom-gap: 24px;
   }
 
-  .subpage__content--page .page-content__title,
-  .subpage__content--page .page-shell__title {
-    margin-top: 0;
+  .about__intro {
+    margin-top: clamp(0.75rem, 3vw, 1rem);
   }
 }

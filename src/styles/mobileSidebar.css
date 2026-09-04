@@ -1,0 +1,68 @@
+/* 모바일(768px 이하): 좌측 고정 네비 + 우측 스크롤 콘텐츠 (shioriarchive 참고) */
+
+@media (max-width: 768px) {
+  .home {
+    --mobile-sidebar-width: clamp(5.25rem, 28vw, 7rem);
+    --mobile-content-gap: clamp(0.75rem, 4vw, 1.25rem);
+    --space-page: clamp(0.625rem, 3vw, 1rem);
+    --logo-width: clamp(3.5rem, 30vw, 6rem);
+    --space-logo-nav: clamp(1.5rem, 10vw, 2.25rem);
+    --font-credits: clamp(0.625rem, 2.6vw, 0.75rem);
+    --font-body: clamp(0.625rem, 2.6vw, 0.75rem);
+  }
+
+  .home__main-header {
+    position: sticky;
+    top: var(--space-page);
+    align-self: start;
+    z-index: 2;
+    width: var(--mobile-sidebar-width);
+    min-width: var(--mobile-sidebar-width);
+    max-width: var(--mobile-sidebar-width);
+    box-sizing: border-box;
+  }
+
+  .home__logo {
+    margin-left: 0;
+    width: var(--logo-width);
+    max-width: none;
+  }
+
+  .home__nav {
+    margin-top: var(--space-logo-nav);
+    gap: clamp(0.75rem, 3.5vw, 1.125rem);
+  }
+
+  .home__nav-list a {
+    word-break: keep-all;
+    font-size: calc(var(--font-nav) - 5px);
+  }
+
+  /* ── PageShell (소개·작업·아카이브·작가 노트 등) ── */
+
+  .home__main--page {
+    grid-template-columns: minmax(0, var(--mobile-sidebar-width)) minmax(0, 1fr);
+    column-gap: var(--mobile-content-gap);
+    row-gap: 0;
+    align-items: start;
+  }
+
+  .home__main--page .home__main-header {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .home__main--page .page-content {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: none;
+    min-width: 0;
+    min-height: auto;
+  }
+
+  .page-content__title,
+  .page-shell__title {
+    margin-top: 0;
+    font-size: calc(var(--font-nav) + 2px);
+  }
+}

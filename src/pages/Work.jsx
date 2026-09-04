@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import PageShell from '../components/PageShell'
 import { getArtistBySlug, getArtistSlugByJarId } from '../data/artists'
-import { PICKLE_LABEL_CENTER, WORK_JAR_PICKLES } from '../data/workJarPickles'
+import { PICKLE_LABEL_CENTER, WORK_JAR_PICKLES, WORK_JAR_PICKLES_MOBILE } from '../data/workJarPickles'
 import { assetPath } from '../utils/assetPath'
 import './SubPageLayout.css'
 import './Work.css'
@@ -23,14 +24,32 @@ const PICKLE_LABEL_OFFSET_Y = {
   'joyeonu-jeonginu': -8,
 }
 
+function useMobileJarPickles() {
+  const [pickles, setPickles] = useState(WORK_JAR_PICKLES)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const update = () => {
+      setPickles(mq.matches ? WORK_JAR_PICKLES_MOBILE : WORK_JAR_PICKLES)
+    }
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  return pickles
+}
+
 function Work() {
+  const jarPickles = useMobileJarPickles()
+
   return (
     <PageShell
       decoration={(
         <div className="work__pickle-bg">
           <div className="work__jar-composition">
             <img className="work__jar-bg" src={assetPath('/images/picklebg.png')} alt="" aria-hidden="true" />
-            {WORK_JAR_PICKLES.map((pickle) => {
+            {jarPickles.map((pickle) => {
               const slug = getArtistSlugByJarId(pickle.id)
               const artist = slug ? getArtistBySlug(slug) : null
               const labelCenter = PICKLE_LABEL_CENTER[pickle.src] ?? { x: 0, y: 0 }
