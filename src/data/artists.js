@@ -189,7 +189,7 @@ const ARTIST_PROFILES = [
     name: '조연우·정인우',
     layout: 'portrait',
     galleryImages: [
-      {},
+      { objectPosition: 'center bottom' },
       { objectPosition: 'center 90%', scale: 1.1 },
       {},
     ],
