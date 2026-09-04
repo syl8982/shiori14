@@ -61,7 +61,7 @@ const WORK_IMAGE_MANIFEST = {
   },
   'joyeonu-jeonginu': {
     folder: '정인우조연우',
-    files: ['정인우조연우_2.jpg', '정인우조연우_1.jpg'],
+    files: ['정인우조연우_1.jpg', '정인우조연우_2.jpg', '정인우조연우_3.jpg'],
   },
   haneungyeong: {
     folder: '한은경',

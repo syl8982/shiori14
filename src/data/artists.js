@@ -122,8 +122,8 @@ const ARTIST_WORK = {
   },
   'joyeonu-jeonginu': {
     title: '틈판 틈쇄',
-    nameEn: 'Cho Yeonwoo',
-    contact: '@whndsud',
+    nameEn: 'Cho Yeonwoo · Jung Inwoo',
+    contact: '@whndsud / @wooneunsaram',
     paragraphs: [
       '한 번 낸 책은 내용을 바꿀 수 없기 때문에 판을 바꾸어 재출간하고는 한다. 1판이 나온 뒤 개정판이 나올 때까지, 저자와 읽는 이 모두 오류 지점을 감당해야 한다. 오류를 견디는 시간 동안 우리는 어떤 모습일까. 스스로와 세계에 대한 개정되지 않은 정보를 어떻게 받아들이고 언어화할까.',
     ],
@@ -187,12 +187,11 @@ const ARTIST_PROFILES = [
   {
     slug: 'joyeonu-jeonginu',
     name: '조연우·정인우',
-    layout: 'row',
-    galleryColumns: '4fr 3fr',
-    galleryAspect: '21 / 8',
+    layout: 'portrait',
     galleryImages: [
       {},
       { objectPosition: 'center 90%', scale: 1.1 },
+      {},
     ],
   },
   { slug: 'jeonginu', name: '정인우', layout: 'portrait' },
