@@ -4,8 +4,9 @@ import Credits from '../components/Credits'
 import PickleGraphic from '../components/PickleGraphic'
 import { PickleMotionProvider } from '../components/PickleMotionProvider'
 import { PARTICIPANT_NAMES } from '../data/artists'
-import { FOOTER_PICKLE_GRAPHIC, MAIN_PICKLE_GRAPHICS } from '../data/pickleGraphics'
 import { POSTER_IMAGES } from '../utils/posterImages'
+import { assetPath } from '../utils/assetPath'
+import { FOOTER_PICKLE_GRAPHIC, MAIN_PICKLE_GRAPHICS } from '../data/pickleGraphics'
 
 const participants = PARTICIPANT_NAMES
 
@@ -14,7 +15,7 @@ function Home() {
     <PickleMotionProvider className="home">
       <section className="home__main" aria-label="메인">
         <div className="home__main-bg" aria-hidden="true">
-          <img src="/images/backgroundlayer.png" alt="" />
+          <img src={assetPath('/images/backgroundlayer.png')} alt="" />
         </div>
 
         <div className="home__main-center">
@@ -24,7 +25,7 @@ function Home() {
             ))}
             <img
               className="home__main-graphic"
-              src="/images/title2.png"
+              src={assetPath('/images/title2.png')}
               alt="네, 피클 듣는 중입니다"
             />
           </div>

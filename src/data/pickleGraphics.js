@@ -1,4 +1,6 @@
-export const MAIN_PICKLE_GRAPHICS = [
+import { assetPath } from '../utils/assetPath'
+
+const RAW_MAIN_PICKLE_GRAPHICS = [
   {
     id: 'layer1-left',
     className: 'home__layer home__layer--1-left',
@@ -161,7 +163,12 @@ export const MAIN_PICKLE_GRAPHICS = [
   },
 ]
 
-export const FOOTER_PICKLE_GRAPHIC = {
+export const MAIN_PICKLE_GRAPHICS = RAW_MAIN_PICKLE_GRAPHICS.map((graphic) => ({
+  ...graphic,
+  src: assetPath(graphic.src),
+}))
+
+const RAW_FOOTER_PICKLE_GRAPHIC = {
   id: 'footer-layer7',
   className: 'home__footer-layer home__footer-layer--7',
   src: '/images/layer7.png',
@@ -176,4 +183,9 @@ export const FOOTER_PICKLE_GRAPHIC = {
   floatDuration: 5,
   floatDelay: 0.4,
   floatAmplitude: 15,
+}
+
+export const FOOTER_PICKLE_GRAPHIC = {
+  ...RAW_FOOTER_PICKLE_GRAPHIC,
+  src: assetPath(RAW_FOOTER_PICKLE_GRAPHIC.src),
 }

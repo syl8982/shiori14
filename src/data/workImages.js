@@ -4,6 +4,8 @@
  * { file, alt?, objectPosition?, scale? }
  */
 
+import { assetPath } from '../utils/assetPath'
+
 const WORK_IMAGE_MANIFEST = {
   kangmingyo: {
     folder: '강민교',
@@ -72,7 +74,7 @@ const WORK_IMAGE_MANIFEST = {
 }
 
 function workImagePath(folder, filename) {
-  return `/images/work/${encodeURIComponent(folder)}/${encodeURIComponent(filename)}`
+  return assetPath(`/images/work/${encodeURIComponent(folder)}/${encodeURIComponent(filename)}`)
 }
 
 function normalizeWorkImageEntry(folder, entry) {

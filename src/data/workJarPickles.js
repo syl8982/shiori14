@@ -1,5 +1,7 @@
 /** 작업 페이지 — picklebg 중심 피클 배치 (Figma 기준 % 좌표·크기) */
 
+import { assetPath } from '../utils/assetPath'
+
 const JAR_CENTER_X = 50
 const JAR_CENTER_Y = 50
 const CLUSTER_FACTOR = 0.76
@@ -124,7 +126,7 @@ const anchoredPickles = RAW_WORK_JAR_PICKLES.map((pickle) => ({
 }))
 
 /** PNG 알파 채널 기준 시각적 중심 — bounding box 50% 대비 보정값(%) */
-export const PICKLE_LABEL_CENTER = {
+const RAW_PICKLE_LABEL_CENTER = {
   '/images/layer1.png': { x: -0.23, y: -2.33 },
   '/images/layer2.png': { x: -1.9, y: 0.04 },
   '/images/layer3.png': { x: -4.62, y: -3.28 },
@@ -134,4 +136,11 @@ export const PICKLE_LABEL_CENTER = {
   '/images/layer7.png': { x: -0.86, y: -1.75 },
 }
 
-export const WORK_JAR_PICKLES = resolveOverlaps(anchoredPickles)
+export const PICKLE_LABEL_CENTER = Object.fromEntries(
+  Object.entries(RAW_PICKLE_LABEL_CENTER).map(([src, center]) => [assetPath(src), center]),
+)
+
+export const WORK_JAR_PICKLES = resolveOverlaps(anchoredPickles).map((pickle) => ({
+  ...pickle,
+  src: assetPath(pickle.src),
+}))

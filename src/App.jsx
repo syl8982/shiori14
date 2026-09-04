@@ -9,9 +9,11 @@ import WorkDetail from './pages/WorkDetail.jsx'
 import Archive from './pages/Archive.jsx'
 import Note from './pages/Note.jsx'
 
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '')
+
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={routerBasename}>
       <CustomCursor />
       <div className="app">
         <Routes>

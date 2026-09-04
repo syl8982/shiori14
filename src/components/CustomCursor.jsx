@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { assetPath } from '../utils/assetPath'
 import './CustomCursor.css'
 
 const LERP = 1
@@ -19,6 +20,13 @@ export default function CustomCursor() {
   const hasMovedRef = useRef(false)
   const hoveringRef = useRef(false)
   const pressingRef = useRef(false)
+
+  useEffect(() => {
+    document.documentElement.style.setProperty(
+      '--custom-cursor-blank',
+      `url(${assetPath('/images/cursor-blank.png')}) 16 16, auto`,
+    )
+  }, [])
 
   useEffect(() => {
     const pointerMq = window.matchMedia('(pointer: fine) and (min-width: 769px)')
@@ -114,7 +122,7 @@ export default function CustomCursor() {
       <img
         ref={imgRef}
         className="custom-cursor__img"
-        src="/images/layer3.png"
+        src={assetPath('/images/layer3.png')}
         alt=""
       />
     </div>

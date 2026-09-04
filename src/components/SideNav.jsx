@@ -1,5 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import { mainNavItems, subNavItems } from '../data/navigation'
+import { assetPath } from '../utils/assetPath'
 
 function NavList({ items }) {
   return (
@@ -19,7 +20,7 @@ function SideNav() {
       <Link to="/">
         <img
           className="home__logo"
-          src="/images/title1.png"
+          src={assetPath('/images/title1.png')}
           alt="시오:리 전시 타이틀"
         />
       </Link>

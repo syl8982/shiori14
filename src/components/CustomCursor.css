@@ -47,7 +47,7 @@
 */
 @media (pointer: fine) and (min-width: 769px) {
   html.custom-cursor-active {
-    cursor: url(/images/cursor-blank.png) 16 16, auto;
+    cursor: var(--custom-cursor-blank, auto);
   }
 
   html.custom-cursor-active *,

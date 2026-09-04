@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import PageShell from '../components/PageShell'
 import { getArtistBySlug, getArtistSlugByJarId } from '../data/artists'
 import { PICKLE_LABEL_CENTER, WORK_JAR_PICKLES } from '../data/workJarPickles'
+import { assetPath } from '../utils/assetPath'
 import './SubPageLayout.css'
 import './Work.css'
 
@@ -28,7 +29,7 @@ function Work() {
       decoration={(
         <div className="work__pickle-bg">
           <div className="work__jar-composition">
-            <img className="work__jar-bg" src="/images/picklebg.png" alt="" aria-hidden="true" />
+            <img className="work__jar-bg" src={assetPath('/images/picklebg.png')} alt="" aria-hidden="true" />
             {WORK_JAR_PICKLES.map((pickle) => {
               const slug = getArtistSlugByJarId(pickle.id)
               const artist = slug ? getArtistBySlug(slug) : null
