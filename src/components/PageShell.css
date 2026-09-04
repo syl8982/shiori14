@@ -41,6 +41,14 @@
     row-gap: var(--space-section-stack);
   }
 
+  .home__main--page .home__main-header {
+    order: 1;
+  }
+
+  .home__main--page .page-content {
+    order: 2;
+  }
+
   .home__main--page .home__main-header,
   .page-content {
     grid-column: 1;

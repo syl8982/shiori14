@@ -48,4 +48,9 @@
   .subpage__content--page {
     --subpage-body-gap: clamp(1.25rem, 5vw, 2rem);
   }
+
+  .subpage__content--page .page-content__title,
+  .subpage__content--page .page-shell__title {
+    margin-top: 0;
+  }
 }
