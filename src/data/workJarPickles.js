@@ -189,35 +189,54 @@ export const WORK_JAR_PICKLES = createJarPickleLayout({
   visualCollisionScale: 1,
 })
 
-/** 모바일 — Figma cluster(0.76) + 중심 기준 7% 확장, 겹침 최소 보정 */
+/** 모바일 — Figma cluster(0.76) + 중심 기준 15% 간격 확대 */
 const MOBILE_PICKLE_POSITIONS = {
-  'jar-1': { x: 50.0, y: 20.7 },
-  'jar-2': { x: 61.3, y: 24.0 },
-  'jar-3': { x: 30.8, y: 31.8 },
-  'jar-4': { x: 41.2, y: 26.2 },
-  'jar-5': { x: 47.2, y: 36.2 },
-  'jar-6': { x: 64.0, y: 51.5 },
-  'jar-7': { x: 64.8, y: 34.3 },
-  'jar-8': { x: 31.8, y: 56.0 },
-  'jar-9': { x: 41.7, y: 67.1 },
-  'jar-10': { x: 55.2, y: 67.1 },
-  'jar-11': { x: 48.7, y: 58.9 },
-  'jar-12': { x: 29.4, y: 66.5 },
-  'jar-13': { x: 41.7, y: 85.0 },
-  'jar-14': { x: 64.7, y: 71.4 },
-  'jar-15': { x: 56.3, y: 42.1 },
-  'jar-17': { x: 38.6, y: 43.6 },
+  'jar-1': { x: 52.0, y: 17.5 },
+  'jar-2': { x: 63.0, y: 20.1 },
+  'jar-3': { x: 27.9, y: 29.1 },
+  'jar-4': { x: 39.9, y: 18.0 },
+  'jar-5': { x: 46.8, y: 35.3 },
+  'jar-6': { x: 63.0, y: 51.7 },
+  'jar-7': { x: 67.0, y: 31.9 },
+  'jar-8': { x: 29.1, y: 56.9 },
+  'jar-9': { x: 40.5, y: 69.7 },
+  'jar-10': { x: 56.0, y: 69.7 },
+  'jar-11': { x: 48.5, y: 60.2 },
+  'jar-12': { x: 26.3, y: 69.0 },
+  'jar-13': { x: 40.5, y: 90.3 },
+  'jar-14': { x: 66.9, y: 74.6 },
+  'jar-15': { x: 57.2, y: 40.9 },
+  'jar-17': { x: 36.9, y: 42.6 },
 }
 
-const MOBILE_SIZE_MULTIPLIER = 0.9
+const MOBILE_SIZE_MULTIPLIER = 1.089
+
+/** 모바일 — jar별 크기 보정 */
+const MOBILE_PICKLE_SIZE_SCALE = {
+  'jar-1': 1.345,
+  'jar-2': 0.95,
+  'jar-4': 1.15,
+  'jar-5': 0.922,
+  'jar-6': 0.912,
+  'jar-7': 1.25,
+  'jar-9': 0.95,
+  'jar-12': 0.95,
+  'jar-13': 0.95,
+  'jar-15': 0.95,
+}
 
 export const WORK_JAR_PICKLES_MOBILE = RAW_WORK_JAR_PICKLES.map((pickle) => {
   const pos = MOBILE_PICKLE_POSITIONS[pickle.id]
+  const sizeScale = MOBILE_PICKLE_SIZE_SCALE[pickle.id] ?? 1
   return {
     ...pickle,
     x: pos.x,
     y: pos.y,
-    size: +scalePickleSize(pickle.src, pickle.size, MOBILE_SIZE_MULTIPLIER).toFixed(2),
+    size: +scalePickleSize(
+      pickle.src,
+      pickle.size,
+      MOBILE_SIZE_MULTIPLIER * sizeScale,
+    ).toFixed(2),
     src: assetPath(pickle.src),
   }
 })

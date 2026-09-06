@@ -147,7 +147,7 @@
   .work__jar-composition {
     width: 100%;
     max-width: none;
-    transform: scale(1.6) translateY(clamp(1rem, 4vw, 1.75rem));
+    transform: scale(1.748) translateY(clamp(1rem, 4vw, 1.75rem));
     transform-origin: center center;
   }
 
@@ -159,6 +159,8 @@
   }
 
   .work__jar-pickle-label {
+    top: 50%;
+    left: 50%;
     font-size: clamp(
       calc(0.5625rem - 3.75px),
       calc(2.4vw - 3.75px),
