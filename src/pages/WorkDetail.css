@@ -349,8 +349,19 @@
   }
 
   .work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame {
+    grid-row: auto;
     aspect-ratio: var(--work-detail-row-image-aspect, 4 / 3);
     max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row .work-detail__image-frame:last-child {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   .work-detail__images--count-2.work-detail__images--layout-row-split {
@@ -361,9 +372,20 @@
   }
 
   .work-detail__images--count-2.work-detail__images--layout-row-split .work-detail__image-frame {
+    grid-row: auto;
     aspect-ratio: 4 / 3;
     height: auto;
     max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row-split .work-detail__image-frame:first-child {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .work-detail__images--count-2.work-detail__images--layout-row-split .work-detail__image-frame:last-child {
+    grid-column: 1;
+    grid-row: 2;
   }
 
   .work-detail__images--count-3 {
@@ -436,6 +458,50 @@
   .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame {
     aspect-ratio: 3 / 2;
     height: auto;
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  /* row 레이아웃(3장, split 없음) — 모바일 1열 */
+  .work-detail__images--count-3.work-detail__images--layout-row:not(.work-detail__images--layout-row-split) {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    aspect-ratio: auto;
+    max-height: none;
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row:not(.work-detail__images--layout-row-split) .work-detail__image-frame:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    aspect-ratio: 3 / 2;
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row:not(.work-detail__images--layout-row-split) .work-detail__image-frame:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+    aspect-ratio: 3 / 2;
+    max-height: min(44vh, 24rem);
+  }
+
+  .work-detail__images--count-3.work-detail__images--layout-row:not(.work-detail__images--layout-row-split) .work-detail__image-frame:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+    aspect-ratio: 3 / 2;
     max-height: min(44vh, 24rem);
   }
 

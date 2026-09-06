@@ -8,7 +8,7 @@ import './SubPageLayout.css'
 import './Work.css'
 
 const PICKLE_LABEL_OFFSET_X = {
-  parkseoyoung: 1,
+  parkseoyoung: 0,
   parkchaeryeong: 1,
   baejuhee: 1,
   hwangdayeon: -8,
@@ -19,9 +19,33 @@ const PICKLE_LABEL_OFFSET_X = {
   'joyeonu-jeonginu': -10,
 }
 
+const MOBILE_PICKLE_LABEL_OFFSET_X = {
+  parkseoyoung: -1,
+  hwangdayeon: -1,
+  haneungyeong: -1,
+}
+
 const PICKLE_LABEL_OFFSET_Y = {
   hwangdayeon: -8,
   'joyeonu-jeonginu': -8,
+}
+
+const MOBILE_PICKLE_LABEL_OFFSET_Y = {
+  haneungyeong: -1,
+}
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener('change', update)
+    return () => mq.removeEventListener('change', update)
+  }, [])
+
+  return isMobile
 }
 
 function useMobileJarPickles() {
@@ -42,6 +66,7 @@ function useMobileJarPickles() {
 
 function Work() {
   const jarPickles = useMobileJarPickles()
+  const isMobile = useIsMobile()
 
   return (
     <PageShell
@@ -69,11 +94,11 @@ function Work() {
                     '--pickle-mask': `url(${pickle.src})`,
                     '--pickle-label-x': `${labelCenter.x}%`,
                     '--pickle-label-y': `${labelCenter.y}%`,
-                    '--pickle-label-offset-x': slug && PICKLE_LABEL_OFFSET_X[slug]
-                      ? `${PICKLE_LABEL_OFFSET_X[slug]}px`
+                    '--pickle-label-offset-x': slug
+                      ? `${(isMobile ? MOBILE_PICKLE_LABEL_OFFSET_X[slug] : PICKLE_LABEL_OFFSET_X[slug]) ?? 0}px`
                       : '0px',
-                    '--pickle-label-offset-y': slug && PICKLE_LABEL_OFFSET_Y[slug]
-                      ? `${PICKLE_LABEL_OFFSET_Y[slug]}px`
+                    '--pickle-label-offset-y': slug
+                      ? `${(isMobile ? MOBILE_PICKLE_LABEL_OFFSET_Y[slug] : PICKLE_LABEL_OFFSET_Y[slug]) ?? 0}px`
                       : '0px',
                     zIndex: pickle.z,
                   }}

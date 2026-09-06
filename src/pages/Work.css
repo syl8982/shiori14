@@ -159,8 +159,8 @@
   }
 
   .work__jar-pickle-label {
-    top: 50%;
-    left: 50%;
+    top: calc(50% + var(--pickle-label-offset-y, 0px));
+    left: calc(50% + var(--pickle-label-offset-x, 0px));
     font-size: clamp(
       calc(0.5625rem - 3.75px),
       calc(2.4vw - 3.75px),
