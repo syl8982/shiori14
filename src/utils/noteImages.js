@@ -1,23 +1,11 @@
-import {
-  buildEntriesFromGlob,
-  createGalleryLoaderFromEntries,
-} from './scatteredGalleryLayout'
+import { NOTE_GALLERY_ENTRIES } from '../data/noteGalleryEntries'
+import { assetPath } from './assetPath'
+import { createGalleryLoaderFromEntries } from './scatteredGalleryLayout'
 
-const notes1ImageModules = import.meta.glob('../../public/images/notes/notes1/*.{jpg,jpeg,JPG,JPEG,png,gif,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-})
+const entries = NOTE_GALLERY_ENTRIES.map(({ name, src, aspectRatio }) => ({
+  name,
+  src: assetPath(src),
+  aspectRatio,
+}))
 
-const notesRootImageModules = import.meta.glob('../../public/images/notes/*.{jpg,jpeg,png,gif,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-})
-
-const noteEntries = [
-  ...buildEntriesFromGlob(notes1ImageModules),
-  ...buildEntriesFromGlob(notesRootImageModules),
-]
-
-export const loadNoteLayout = createGalleryLoaderFromEntries(noteEntries, 17)
+export const loadNoteLayout = createGalleryLoaderFromEntries(entries, 17)

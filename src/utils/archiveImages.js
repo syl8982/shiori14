@@ -1,9 +1,11 @@
-import { createGalleryLoader } from './scatteredGalleryLayout'
+import { ARCHIVE_GALLERY_ENTRIES } from '../data/archiveGalleryEntries'
+import { assetPath } from './assetPath'
+import { createGalleryLoaderFromEntries } from './scatteredGalleryLayout'
 
-const archiveImageModules = import.meta.glob('../../public/images/archive/*.{jpg,jpeg,png,gif,webp}', {
-  eager: true,
-  query: '?url',
-  import: 'default',
-})
+const entries = ARCHIVE_GALLERY_ENTRIES.map(({ name, src, aspectRatio }) => ({
+  name,
+  src: assetPath(src),
+  aspectRatio,
+}))
 
-export const loadArchiveLayout = createGalleryLoader(archiveImageModules, 0)
+export const loadArchiveLayout = createGalleryLoaderFromEntries(entries, 0)

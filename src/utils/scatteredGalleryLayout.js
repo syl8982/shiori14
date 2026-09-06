@@ -52,6 +52,7 @@ export function buildScatteredLayout(entries, seedOffset = 0) {
 
     const item = {
       ...entry,
+      index,
       leftPercent,
       topCqw,
       widthPercent,
@@ -65,29 +66,11 @@ export function buildScatteredLayout(entries, seedOffset = 0) {
   return { items }
 }
 
-function loadImageAspectRatio(src) {
-  return new Promise((resolve) => {
-    const img = new Image()
-    img.onload = () => resolve(img.naturalHeight / img.naturalWidth)
-    img.onerror = () => resolve(1.33)
-    img.src = src
-  })
-}
-
 export function createGalleryLoaderFromEntries(entries, seedOffset = 0) {
-  let layoutPromise = null
+  const layout = buildScatteredLayout(entries, seedOffset)
 
   return function loadGalleryLayout() {
-    if (!layoutPromise) {
-      layoutPromise = Promise.all(
-        entries.map(async (entry) => ({
-          ...entry,
-          aspectRatio: await loadImageAspectRatio(entry.src),
-        })),
-      ).then((entriesWithAspect) => buildScatteredLayout(entriesWithAspect, seedOffset))
-    }
-
-    return layoutPromise
+    return Promise.resolve(layout)
   }
 }
 

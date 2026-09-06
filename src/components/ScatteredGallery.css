@@ -17,6 +17,7 @@
   top: calc(var(--gallery-top) * 1cqw);
   left: var(--gallery-left);
   width: var(--gallery-width);
+  min-height: calc(var(--gallery-height) * 1cqw);
   margin: 0;
   z-index: var(--gallery-z);
 }
