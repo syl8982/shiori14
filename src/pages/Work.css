@@ -94,7 +94,7 @@
   left: calc(50% + var(--pickle-label-x, 0%) + var(--pickle-label-offset-x, 0px));
   z-index: 1;
   max-width: 88%;
-  font-size: clamp(0.5625rem, 0.95vw, 0.8125rem);
+  font-size: clamp(calc(0.5625rem - 2px), calc(0.95vw - 2px), calc(0.8125rem - 2px));
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.02em;
@@ -124,10 +124,6 @@
   .subpage__content--work {
     padding-top: 0;
     min-height: 0;
-  }
-
-  .subpage__content--work .page-content__title {
-    display: none;
   }
 
   .home:has(.subpage__content--work) .page-content {
@@ -165,11 +161,7 @@
   .work__jar-pickle-label {
     top: calc(50% + var(--pickle-label-offset-y, 0px));
     left: calc(50% + var(--pickle-label-offset-x, 0px));
-    font-size: clamp(
-      calc(0.5625rem - 3.75px),
-      calc(2.4vw - 3.75px),
-      calc(0.75rem - 3.75px)
-    );
+    font-size: clamp(0.5625rem, 2.4vw, 0.75rem);
   }
 }
 

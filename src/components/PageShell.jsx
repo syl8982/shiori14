@@ -12,7 +12,7 @@ function PageShell({ title, children, contentClassName = '', decoration = null }
         </div>
 
         <div className={`page-content ${contentClassName}`.trim()}>
-          {children ?? <h1 className="page-content__title">{title}</h1>}
+          {children ?? (title ? <h1 className="page-content__title">{title}</h1> : null)}
         </div>
       </section>
     </main>

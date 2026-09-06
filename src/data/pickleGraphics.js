@@ -168,6 +168,28 @@ export const MAIN_PICKLE_GRAPHICS = RAW_MAIN_PICKLE_GRAPHICS.map((graphic) => ({
   src: assetPath(graphic.src),
 }))
 
+const RAW_RIGHT_POSTER_PICKLE_GRAPHIC = {
+  id: 'poster-layer6',
+  className: 'home__poster-pickle home__poster-pickle--layer6',
+  src: '/images/layer6.png',
+  enterDelay: 0.19,
+  entryOffset: 105,
+  maxPush: 42,
+  influenceRadius: 145,
+  pushStrength: 30,
+  mass: 1.6,
+  spring: 0.048,
+  damping: 0.83,
+  floatDuration: 4.8,
+  floatDelay: 1.7,
+  floatAmplitude: 13,
+}
+
+export const RIGHT_POSTER_PICKLE_GRAPHIC = {
+  ...RAW_RIGHT_POSTER_PICKLE_GRAPHIC,
+  src: assetPath(RAW_RIGHT_POSTER_PICKLE_GRAPHIC.src),
+}
+
 const RAW_FOOTER_PICKLE_GRAPHIC = {
   id: 'footer-layer7',
   className: 'home__footer-layer home__footer-layer--7',

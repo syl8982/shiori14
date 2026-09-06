@@ -6,7 +6,7 @@ import { PickleMotionProvider } from '../components/PickleMotionProvider'
 import { PARTICIPANT_NAMES } from '../data/artists'
 import { POSTER_IMAGES } from '../utils/posterImages'
 import { assetPath } from '../utils/assetPath'
-import { FOOTER_PICKLE_GRAPHIC, MAIN_PICKLE_GRAPHICS } from '../data/pickleGraphics'
+import { FOOTER_PICKLE_GRAPHIC, MAIN_PICKLE_GRAPHICS, RIGHT_POSTER_PICKLE_GRAPHIC } from '../data/pickleGraphics'
 
 const participants = PARTICIPANT_NAMES
 
@@ -31,13 +31,16 @@ function Home() {
           </div>
 
           <div className="home__posters">
-            {POSTER_IMAGES.map((poster) => (
+            {POSTER_IMAGES.map((poster, index) => (
               <div key={poster.src} className="home__poster-frame">
                 <img
                   className="home__poster"
                   src={poster.src}
                   alt=""
                 />
+                {index === POSTER_IMAGES.length - 1 ? (
+                  <PickleGraphic {...RIGHT_POSTER_PICKLE_GRAPHIC} />
+                ) : null}
               </div>
             ))}
           </div>

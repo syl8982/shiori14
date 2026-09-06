@@ -7,20 +7,20 @@ const JAR_CENTER_Y = 50
 const JAR_ASPECT = 935 / 892
 
 const RAW_WORK_JAR_PICKLES = [
-  { id: 'jar-1', src: '/images/layer4.png', x: 50, y: 14, size: 3.5, z: 2, offsetX: -12, offsetY: 25, gap: 0.35 },
+  { id: 'jar-1', src: '/images/layer4.png', x: 50, y: 14, size: 3.5, z: 2, offsetX: -4, offsetY: 40, gap: 0.35 },
   { id: 'jar-2', src: '/images/layer7.png', x: 64, y: 18, size: 14, z: 3, gap: 1.15 },
   { id: 'jar-3', src: '/images/layer1.png', x: 28, y: 28, size: 15, z: 4, gap: 0.75 },
   { id: 'jar-4', src: '/images/layer3.png', x: 38, y: 22, size: 7, z: 5, gap: 1.35 },
-  { id: 'jar-5', src: '/images/layer3.png', x: 52, y: 34, size: 6, z: 3, gap: 0.55 },
-  { id: 'jar-6', src: '/images/layer7.png', x: 72, y: 44, size: 21, z: 6, offsetX: 20, gap: 0.95 },
-  { id: 'jar-7', src: '/images/layer3.png', x: 68, y: 38, size: 4.5, z: 7, gap: 1.45 },
+  { id: 'jar-5', src: '/images/layer3.png', x: 52, y: 34, size: 6, z: 3, offsetY: 13, gap: 0.55 },
+  { id: 'jar-6', src: '/images/layer7.png', x: 72, y: 44, size: 21, z: 6, offsetX: 12, gap: 0.95 },
+  { id: 'jar-7', src: '/images/layer6.png', x: 68, y: 38, size: 4.5, z: 7, gap: 1.45 },
   { id: 'jar-8', src: '/images/layer5.png', x: 32, y: 48, size: 8, z: 5, offsetX: 18, gap: 0.65 },
   { id: 'jar-9', src: '/images/layer5.png', x: 44, y: 56, size: 4.8, z: 4, gap: 1.25 },
   { id: 'jar-10', src: '/images/layer6.png', x: 56, y: 60, size: 5, z: 5, gap: 0.4 },
   { id: 'jar-11', src: '/images/layer4.png', x: 50, y: 52, size: 6.8, z: 6, gap: 1.05 },
-  { id: 'jar-12', src: '/images/layer1.png', x: 24, y: 68, size: 19, z: 7, gap: 0.85 },
-  { id: 'jar-13', src: '/images/layer2.png', x: 35, y: 76, size: 11, z: 8, offsetX: 16, offsetY: -25, gap: 1.35 },
-  { id: 'jar-14', src: '/images/layer1.png', x: 68, y: 72, size: 14, z: 6, offsetY: -10, gap: 0.5 },
+  { id: 'jar-12', src: '/images/layer1.png', x: 24, y: 68, size: 19, z: 7, offsetX: -8, gap: 0.85 },
+  { id: 'jar-13', src: '/images/layer2.png', x: 35, y: 76, size: 11, z: 8, offsetX: 16, offsetY: 17, gap: 1.35 },
+  { id: 'jar-14', src: '/images/layer1.png', x: 68, y: 72, size: 14, z: 6, offsetY: 10, gap: 0.5 },
   { id: 'jar-15', src: '/images/layer3.png', x: 58, y: 42, size: 11.115, z: 4, gap: 1.1 },
   { id: 'jar-17', src: '/images/layer2.png', x: 46, y: 46, size: 9, z: 4, gap: 1.2 },
 ]
@@ -59,6 +59,7 @@ function createJarPickleLayout({
   baseMinGap,
   gapMultiplier,
   sizeMultiplier = 1,
+  perPickleSizeScale = {},
   useVisualPadding = false,
   visualCollisionScale = 1,
   pairPushPadding = 0.12,
@@ -140,7 +141,11 @@ function createJarPickleLayout({
       ...pickle,
       x: cluster(pickle.x, JAR_CENTER_X),
       y: cluster(pickle.y, JAR_CENTER_Y),
-      size: scalePickleSize(pickle.src, pickle.size, sizeMultiplier),
+      size: scalePickleSize(
+        pickle.src,
+        pickle.size * (perPickleSizeScale[pickle.id] ?? 1),
+        sizeMultiplier,
+      ),
       gap: (pickle.gap ?? 0.8) * gapMultiplier * gapScale,
     }))
   }
@@ -181,12 +186,54 @@ export const PICKLE_LABEL_CENTER = Object.fromEntries(
   Object.entries(RAW_PICKLE_LABEL_CENTER).map(([src, center]) => [assetPath(src), center]),
 )
 
+/** 데스크톱 — jar별 크기 보정 */
+const DESKTOP_PICKLE_SIZE_SCALE = {
+  'jar-5': 0.96,
+  'jar-6': 0.96,
+  'jar-8': 0.96,
+  'jar-9': 0.8748,
+  'jar-10': 1.0086,
+  'jar-11': 0.9216,
+  'jar-12': 0.96,
+  'jar-15': 0.8292,
+  'jar-17': 0.97,
+}
+
+/** 데스크톱 — jar별 위치 보정 (px) */
+const DESKTOP_PICKLE_OFFSET_X = {
+  'jar-5': 26,
+  'jar-7': 10,
+  'jar-9': -7,
+  'jar-10': -5,
+  'jar-14': 7,
+  'jar-15': 10,
+}
+
+const DESKTOP_PICKLE_OFFSET_Y = {
+  'jar-1': 10,
+  'jar-4': -15,
+  'jar-5': 4,
+  'jar-10': 15,
+  'jar-11': 10,
+}
+
 export const WORK_JAR_PICKLES = createJarPickleLayout({
   clusterFactor: 0.76,
   baseMinGap: 0,
   gapMultiplier: 1,
-  sizeMultiplier: 1,
+  sizeMultiplier: 0.98,
+  perPickleSizeScale: DESKTOP_PICKLE_SIZE_SCALE,
   visualCollisionScale: 1,
+}).map((pickle) => {
+  const offsetXDelta = DESKTOP_PICKLE_OFFSET_X[pickle.id]
+  const offsetYDelta = DESKTOP_PICKLE_OFFSET_Y[pickle.id]
+  if (!offsetXDelta && !offsetYDelta) return pickle
+
+  return {
+    ...pickle,
+    ...(offsetXDelta ? { offsetX: (pickle.offsetX ?? 0) + offsetXDelta } : {}),
+    ...(offsetYDelta ? { offsetY: (pickle.offsetY ?? 0) + offsetYDelta } : {}),
+  }
 })
 
 /** 모바일 — Figma cluster(0.76) + 중심 기준 15% 간격 확대 */
@@ -233,6 +280,7 @@ export const WORK_JAR_PICKLES_MOBILE = RAW_WORK_JAR_PICKLES.map((pickle) => {
     ...pickle,
     x: pos.x,
     y: pos.y,
+    ...(pickle.id === 'jar-13' ? { offsetY: -25 } : {}),
     size: +scalePickleSize(
       pickle.src,
       pickle.size,

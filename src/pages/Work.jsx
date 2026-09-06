@@ -9,8 +9,8 @@ import './Work.css'
 
 const PICKLE_LABEL_OFFSET_X = {
   parkseoyoung: 0,
-  parkchaeryeong: 1,
-  baejuhee: 1,
+  parkchaeryeong: 0.5,
+  baejuhee: 0.5,
   hwangdayeon: -8,
   leegaeun: 2,
   leeseunghyeon: 2,
@@ -21,6 +21,8 @@ const PICKLE_LABEL_OFFSET_X = {
 
 const MOBILE_PICKLE_LABEL_OFFSET_X = {
   parkseoyoung: -1,
+  parkchaeryeong: -0.5,
+  baejuhee: -0.5,
   hwangdayeon: -1,
   haneungyeong: -1,
 }
@@ -127,9 +129,7 @@ function Work() {
         </div>
       )}
       contentClassName="subpage__content subpage__content--page subpage__content--work"
-    >
-      <h1 className="page-content__title">작업</h1>
-    </PageShell>
+    />
   )
 }
 
