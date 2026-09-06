@@ -151,6 +151,10 @@
     transform-origin: center center;
   }
 
+  .work__jar-bg {
+    transform: translateX(-2px);
+  }
+
   .work__jar-pickle-link {
     transform: translate(
       calc(-50% + var(--pickle-offset-x, 0px)),
