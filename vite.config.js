@@ -14,5 +14,5 @@ export default defineConfig({
       },
     },
   ],
-  base: '/shiori14/',
+  base: '/',
 })
