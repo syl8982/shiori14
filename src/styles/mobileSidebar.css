@@ -67,9 +67,4 @@
     min-height: auto;
   }
 
-  .page-content__title,
-  .page-shell__title {
-    margin-top: 0;
-    font-size: var(--font-nav);
-  }
 }

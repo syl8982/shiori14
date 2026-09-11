@@ -34,3 +34,12 @@
   line-height: var(--line-height-nav);
   letter-spacing: -0.01em;
 }
+
+@media (max-width: 768px) {
+  .page-content__title,
+  .page-shell__title {
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
