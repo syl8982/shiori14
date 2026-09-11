@@ -263,10 +263,10 @@ const MOBILE_PICKLE_SIZE_SCALE = {
   'jar-1': 1.3652,
   'jar-2': 0.95,
   'jar-4': 1.1328,
-  'jar-5': 0.8983,
+  'jar-5': 0.9118,
   'jar-6': 0.8846,
   'jar-7': 1.25,
-  'jar-9': 0.9643,
+  'jar-9': 0.9788,
   'jar-10': 1.015,
   'jar-11': 0.95,
   'jar-12': 0.9215,
@@ -294,7 +294,7 @@ export const WORK_JAR_PICKLES_MOBILE = RAW_WORK_JAR_PICKLES.map((pickle) => {
   const offsetXDelta = MOBILE_PICKLE_OFFSET_X[pickle.id]
   const offsetYDelta = MOBILE_PICKLE_OFFSET_Y[pickle.id]
   const offsetY = pickle.id === 'jar-13'
-    ? -25
+    ? -19
     : offsetYDelta
       ? (pickle.offsetY ?? 0) + offsetYDelta
       : pickle.offsetY

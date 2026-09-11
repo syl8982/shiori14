@@ -92,16 +92,9 @@ function getWorkImageCropStyle(image) {
   return style
 }
 
-function WorkDetailImage({
-  image,
-  title,
-  index,
-  loading = 'lazy',
-  className = '',
-  mobileFullFit = false,
-}) {
+function WorkDetailImage({ image, title, index, loading = 'lazy', className = '' }) {
   const scale = image.scale ?? DEFAULT_IMAGE_SCALE
-  const isScaled = !mobileFullFit && scale !== DEFAULT_IMAGE_SCALE
+  const isScaled = scale !== DEFAULT_IMAGE_SCALE
 
   return (
     <figure className={`work-detail__image-frame ${className}`.trim()}>
@@ -111,11 +104,7 @@ function WorkDetailImage({
         alt={image.alt ?? (title ? `${title} 작업 이미지 ${index + 1}` : '')}
         loading={loading}
         decoding="async"
-        style={
-          mobileFullFit
-            ? { objectPosition: image.objectPosition ?? DEFAULT_OBJECT_POSITION }
-            : getWorkImageCropStyle(image)
-        }
+        style={getWorkImageCropStyle(image)}
       />
     </figure>
   )
@@ -139,7 +128,7 @@ function WorkDetailImages({
   const count = items.length
   const isRowLayout = count === 2 && layout === 'row'
   const isRowSplit = isRowLayout && galleryColumns
-  const isJeonsohyeonPortraitFit = (index) =>
+  const isJeonsohyeonPortraitPair = (index) =>
     artistSlug === 'jeonsohyeon' && index > 0
 
   if (count === 0) {
@@ -184,15 +173,13 @@ function WorkDetailImages({
           image={items[1]}
           title={title}
           index={1}
-          className={isJeonsohyeonPortraitFit(1) ? 'work-detail__image-frame--mobile-full-portrait' : ''}
-          mobileFullFit={isJeonsohyeonPortraitFit(1)}
+          className={isJeonsohyeonPortraitPair(1) ? 'work-detail__image-frame--portrait-pair' : ''}
         />
         <WorkDetailImage
           image={items[2]}
           title={title}
           index={2}
-          className={isJeonsohyeonPortraitFit(2) ? 'work-detail__image-frame--mobile-full-portrait' : ''}
-          mobileFullFit={isJeonsohyeonPortraitFit(2)}
+          className={isJeonsohyeonPortraitPair(2) ? 'work-detail__image-frame--portrait-pair' : ''}
         />
       </div>
     )

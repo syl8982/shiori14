@@ -461,30 +461,14 @@
     max-height: min(44vh, 24rem);
   }
 
+  /* 전소현 — 사진 2·3 동일 세로(3번 비율), 2번은 하단 정렬로 상단 crop */
   .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
-    .work-detail__image-frame--mobile-full-portrait {
-    max-height: none;
-  }
-
-  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
-    .work-detail__image-frame--mobile-full-portrait:nth-child(2) {
-    aspect-ratio: 1024 / 1501;
-  }
-
-  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
-    .work-detail__image-frame--mobile-full-portrait:nth-child(3) {
+    .work-detail__image-frame--portrait-pair {
     aspect-ratio: 1050 / 1491;
-  }
-
-  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
-    .work-detail__image-frame--mobile-full-portrait .work-detail__image {
-    position: static;
-    inset: auto;
-    display: block;
     width: 100%;
     height: auto;
-    object-fit: contain;
-    object-position: center center;
+    align-self: start;
+    max-height: none;
   }
 
   .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame:nth-child(1) {
