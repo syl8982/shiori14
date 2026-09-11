@@ -260,13 +260,14 @@ const MOBILE_SIZE_MULTIPLIER = 1.089
 
 /** 모바일 — jar별 크기 보정 */
 const MOBILE_PICKLE_SIZE_SCALE = {
-  'jar-1': 1.345,
+  'jar-1': 1.3652,
   'jar-2': 0.95,
   'jar-4': 1.1328,
-  'jar-5': 0.885,
+  'jar-5': 0.8983,
   'jar-6': 0.8846,
   'jar-7': 1.25,
-  'jar-9': 0.95,
+  'jar-9': 0.9643,
+  'jar-10': 1.015,
   'jar-11': 0.95,
   'jar-12': 0.9215,
   'jar-14': 0.97,
@@ -277,12 +278,14 @@ const MOBILE_PICKLE_SIZE_SCALE = {
 /** 모바일 — jar별 위치 보정 (px) */
 const MOBILE_PICKLE_OFFSET_X = {
   'jar-6': 4,
+  'jar-12': 3,
 }
 
 const MOBILE_PICKLE_OFFSET_Y = {
-  'jar-1': -15,
+  'jar-1': -20,
   'jar-3': 3,
   'jar-5': -15,
+  'jar-14': -10,
 }
 
 export const WORK_JAR_PICKLES_MOBILE = RAW_WORK_JAR_PICKLES.map((pickle) => {

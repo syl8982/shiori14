@@ -92,9 +92,16 @@ function getWorkImageCropStyle(image) {
   return style
 }
 
-function WorkDetailImage({ image, title, index, loading = 'lazy', className = '' }) {
+function WorkDetailImage({
+  image,
+  title,
+  index,
+  loading = 'lazy',
+  className = '',
+  mobileFullFit = false,
+}) {
   const scale = image.scale ?? DEFAULT_IMAGE_SCALE
-  const isScaled = scale !== DEFAULT_IMAGE_SCALE
+  const isScaled = !mobileFullFit && scale !== DEFAULT_IMAGE_SCALE
 
   return (
     <figure className={`work-detail__image-frame ${className}`.trim()}>
@@ -104,7 +111,11 @@ function WorkDetailImage({ image, title, index, loading = 'lazy', className = ''
         alt={image.alt ?? (title ? `${title} 작업 이미지 ${index + 1}` : '')}
         loading={loading}
         decoding="async"
-        style={getWorkImageCropStyle(image)}
+        style={
+          mobileFullFit
+            ? { objectPosition: image.objectPosition ?? DEFAULT_OBJECT_POSITION }
+            : getWorkImageCropStyle(image)
+        }
       />
     </figure>
   )
@@ -116,11 +127,20 @@ function getThreeImageLayoutClass(layout) {
     : 'work-detail__images--layout-portrait'
 }
 
-function WorkDetailImages({ images, title, layout = DEFAULT_LAYOUT, galleryAspect, galleryColumns }) {
+function WorkDetailImages({
+  images,
+  title,
+  layout = DEFAULT_LAYOUT,
+  galleryAspect,
+  galleryColumns,
+  artistSlug,
+}) {
   const items = images.slice(0, 3)
   const count = items.length
   const isRowLayout = count === 2 && layout === 'row'
   const isRowSplit = isRowLayout && galleryColumns
+  const isJeonsohyeonPortraitFit = (index) =>
+    artistSlug === 'jeonsohyeon' && index > 0
 
   if (count === 0) {
     return (
@@ -141,6 +161,7 @@ function WorkDetailImages({ images, title, layout = DEFAULT_LAYOUT, galleryAspec
           'work-detail__images--count-3',
           isRowLayout ? 'work-detail__images--layout-row' : getThreeImageLayoutClass(layout),
           isRowSplit ? 'work-detail__images--layout-row-split' : '',
+          artistSlug ? `work-detail__images--artist-${artistSlug}` : '',
         ].filter(Boolean).join(' ')}
         style={
           isRowSplit
@@ -159,8 +180,20 @@ function WorkDetailImages({ images, title, layout = DEFAULT_LAYOUT, galleryAspec
           loading="eager"
           className={isRowSplit ? '' : 'work-detail__image-frame--lead'}
         />
-        <WorkDetailImage image={items[1]} title={title} index={1} />
-        <WorkDetailImage image={items[2]} title={title} index={2} />
+        <WorkDetailImage
+          image={items[1]}
+          title={title}
+          index={1}
+          className={isJeonsohyeonPortraitFit(1) ? 'work-detail__image-frame--mobile-full-portrait' : ''}
+          mobileFullFit={isJeonsohyeonPortraitFit(1)}
+        />
+        <WorkDetailImage
+          image={items[2]}
+          title={title}
+          index={2}
+          className={isJeonsohyeonPortraitFit(2) ? 'work-detail__image-frame--mobile-full-portrait' : ''}
+          mobileFullFit={isJeonsohyeonPortraitFit(2)}
+        />
       </div>
     )
   }
@@ -172,6 +205,7 @@ function WorkDetailImages({ images, title, layout = DEFAULT_LAYOUT, galleryAspec
         `work-detail__images--count-${count}`,
         isRowLayout ? 'work-detail__images--layout-row' : '',
         isRowSplit ? 'work-detail__images--layout-row-split' : '',
+        artistSlug ? `work-detail__images--artist-${artistSlug}` : '',
       ].filter(Boolean).join(' ')}
       style={
         isRowSplit
@@ -295,6 +329,7 @@ function WorkDetail() {
           layout={artist.layout ?? DEFAULT_LAYOUT}
           galleryAspect={artist.galleryAspect}
           galleryColumns={artist.galleryColumns}
+          artistSlug={slug}
         />
         <WorkDetailMeta artist={artist} work={work} />
       </article>

@@ -1,7 +1,8 @@
 /** slug → public/images/work/{folder} 이미지 (최대 3장)
  *
  * files 항목 — 문자열(파일명) 또는 객체:
- * { file, alt?, objectPosition?, scale? }
+ * { file, webFile?, alt?, objectPosition?, scale? }
+ * webFile — public/images/work-web/{folder}/ 웹용 이미지 (원본 보존)
  */
 
 import { assetPath } from '../utils/assetPath'
@@ -13,7 +14,10 @@ const WORK_IMAGE_MANIFEST = {
   },
   kimjio: {
     folder: '김지오',
-    files: ['김지오_1.png', '김지오_2.png'],
+    files: [
+      { file: '김지오_1.png', webFile: '김지오_1.webp' },
+      { file: '김지오_2.png', webFile: '김지오_2.webp' },
+    ],
   },
   kimharang: {
     folder: '김하랑',
@@ -81,6 +85,14 @@ function workImagePath(folder, filename) {
   )
 }
 
+function workWebImagePath(folder, filename) {
+  const normalizedFolder = folder.normalize('NFC')
+  const normalizedFilename = filename.normalize('NFC')
+  return assetPath(
+    `/images/work-web/${encodeURIComponent(normalizedFolder)}/${encodeURIComponent(normalizedFilename)}`,
+  )
+}
+
 function normalizeWorkImageEntry(folder, entry) {
   if (typeof entry === 'string') {
     return { src: workImagePath(folder, entry), alt: '' }
@@ -88,6 +100,7 @@ function normalizeWorkImageEntry(folder, entry) {
 
   const {
     file,
+    webFile,
     src,
     alt = '',
     objectPosition,
@@ -95,7 +108,7 @@ function normalizeWorkImageEntry(folder, entry) {
   } = entry
 
   const image = {
-    src: src ?? workImagePath(folder, file),
+    src: src ?? (webFile ? workWebImagePath(folder, webFile) : workImagePath(folder, file)),
     alt,
   }
 

@@ -461,6 +461,32 @@
     max-height: min(44vh, 24rem);
   }
 
+  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
+    .work-detail__image-frame--mobile-full-portrait {
+    max-height: none;
+  }
+
+  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
+    .work-detail__image-frame--mobile-full-portrait:nth-child(2) {
+    aspect-ratio: 1024 / 1501;
+  }
+
+  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
+    .work-detail__image-frame--mobile-full-portrait:nth-child(3) {
+    aspect-ratio: 1050 / 1491;
+  }
+
+  .work-detail__images--artist-jeonsohyeon.work-detail__images--count-3.work-detail__images--layout-row-split
+    .work-detail__image-frame--mobile-full-portrait .work-detail__image {
+    position: static;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center center;
+  }
+
   .work-detail__images--count-3.work-detail__images--layout-row-split .work-detail__image-frame:nth-child(1) {
     grid-column: 1;
     grid-row: 1;
