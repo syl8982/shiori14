@@ -6,7 +6,8 @@
     --mobile-content-gap: clamp(0.75rem, 4vw, 1.25rem);
     --space-page: clamp(0.625rem, 3vw, 1rem);
     --logo-width: clamp(3.5rem, 30vw, 6rem);
-    --logo-offset-left: -8px;
+    --logo-offset-left: -6px;
+    --mobile-main-gutter: 8px;
     --space-logo-nav: clamp(1.5rem, 10vw, 2.25rem);
     --font-credits: clamp(0.625rem, 2.6vw, 0.75rem);
     --font-body: clamp(0.625rem, 2.6vw, 0.75rem);

@@ -262,25 +262,49 @@ const MOBILE_SIZE_MULTIPLIER = 1.089
 const MOBILE_PICKLE_SIZE_SCALE = {
   'jar-1': 1.345,
   'jar-2': 0.95,
-  'jar-4': 1.15,
+  'jar-4': 1.1328,
   'jar-5': 0.885,
-  'jar-6': 0.912,
+  'jar-6': 0.8846,
   'jar-7': 1.25,
   'jar-9': 0.95,
   'jar-11': 0.95,
-  'jar-12': 0.95,
+  'jar-12': 0.9215,
+  'jar-14': 0.97,
   'jar-13': 1.026,
   'jar-15': 0.95,
+}
+
+/** 모바일 — jar별 위치 보정 (px) */
+const MOBILE_PICKLE_OFFSET_X = {
+  'jar-6': 4,
+}
+
+const MOBILE_PICKLE_OFFSET_Y = {
+  'jar-1': -15,
+  'jar-3': 3,
+  'jar-5': -15,
 }
 
 export const WORK_JAR_PICKLES_MOBILE = RAW_WORK_JAR_PICKLES.map((pickle) => {
   const pos = MOBILE_PICKLE_POSITIONS[pickle.id]
   const sizeScale = MOBILE_PICKLE_SIZE_SCALE[pickle.id] ?? 1
+  const offsetXDelta = MOBILE_PICKLE_OFFSET_X[pickle.id]
+  const offsetYDelta = MOBILE_PICKLE_OFFSET_Y[pickle.id]
+  const offsetY = pickle.id === 'jar-13'
+    ? -25
+    : offsetYDelta
+      ? (pickle.offsetY ?? 0) + offsetYDelta
+      : pickle.offsetY
+  const offsetX = offsetXDelta
+    ? (pickle.offsetX ?? 0) + offsetXDelta
+    : pickle.offsetX
+
   return {
     ...pickle,
     x: pos.x,
     y: pos.y,
-    ...(pickle.id === 'jar-13' ? { offsetY: -25 } : {}),
+    ...(offsetX != null ? { offsetX } : {}),
+    ...(offsetY != null ? { offsetY } : {}),
     size: +scalePickleSize(
       pickle.src,
       pickle.size,
